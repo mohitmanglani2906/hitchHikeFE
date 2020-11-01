@@ -1,4 +1,72 @@
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-<div id="main">
-  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui quos voluptates delectus quia a reiciendis commodi, atque cupiditate soluta necessitatibus quibusdam corporis unde amet architecto, nesciunt distinctio explicabo magnam rerum.</p>
+<div id="main" style="padding: 40px;">
+
+  <div class="container">
+
+    <div *ngIf="successMessage" class="alert alert-success">{{successMessage}}</div>
+    <div *ngIf="email.invalid && (email.dirty && email.touched) && email.errors.required" class="alert alert-danger">Name or Email is required.</div>
+    <div *ngIf="sourcePlace.invalid && (sourcePlace.dirty && sourcePlace.touched) && sourcePlace.errors.required" class="alert alert-danger">Please Enter Source Place</div>
+    <div *ngIf="destinationPlace.invalid && (destinationPlace.dirty && destinationPlace.touched) && destinationPlace.errors.required" class="alert alert-danger">Please Enter Destination Place</div>
+    <div *ngIf="leavingTime.invalid && (leavingTime.dirty && leavingTime.touched) && leavingTime.errors.required" class="alert alert-danger">Please Enter Approx Leaving Time</div>
+
+    <h2>Let's Share and Take Ride</h2>
+    <form #userRequestForm="ngForm" (ngSubmit)="!userRequestForm.invalid &&  submitForm(userRequestForm)" class="form-horizontal">
+      
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Enter Email id or Name</label>
+        <div class="col-sm-10">
+          <input type="text" required="required" [(ngModel)]="userRequest.email" #email="ngModel" class="form-control" id="email" placeholder="Enter email or name" name="email" (ngModelChange) = "userRequest.email = $event">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="sourcePlace">Enter Source Place</label>
+        <div class="col-sm-10">          
+          <input type="text" required="required" [(ngModel)]="userRequest.sourcePlace" #sourcePlace="ngModel" class="form-control" id="sourcePlace" placeholder="Enter Source Place" name="sourcePlace" (ngModelChange) = "userRequest.sourcePlace = $event">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="destinationPlace">Enter Destination Place</label>
+        <div class="col-sm-10">          
+          <input type="text" [(ngModel)]="userRequest.destinationPlace" #destinationPlace="ngModel" class="form-control" id="destinationPlace" placeholder="Enter Destination Place" name="destinationPlace" (ngModelChange) = "userRequest.destinationPlace = $event"  required="required">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="leavingTime">Enter Approx Leaving Time</label>
+        <div class="col-sm-10">          
+          <input type="datetime-local" [(ngModel)]="userRequest.leavingTime" #leavingTime="ngModel" class="form-control" id="leavingTime" placeholder="Enter Leaving Time" name="leavingTime" (ngModelChange) = "userRequest.leavingTime = $event" required="required">
+        </div>
+      </div>
+
+      
+      <div class="form-group">        
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+      </div>      
+    </form>
+  </div>
+  
+
+  <hr>
+
+  <div class="tab">
+    <button class="tablinks" (click) = "myRequests()">My Requests</button>
+    <button class="tablinks" (click) = "allRequests()">All Requests</button>
+  </div>
+  
+  <div id="myRequests" class="tabcontent">
+    <h3>Requests Initiated By You</h3>
+    <p>London is the capital city of England.</p>
+    <p>London is the capital city of England.</p>
+  </div>
+  
+  <div id="all Requests" class="tabcontent">
+    <h3>All Requests</h3>
+    <p>Paris is the capital of France.</p> 
+  </div>
+  
+   
 </div>

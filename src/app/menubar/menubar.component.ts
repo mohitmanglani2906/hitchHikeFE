@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-declare var openNav: any;
+// declare var openNav: any;
 
 @Component({
   selector: 'app-menubar',
