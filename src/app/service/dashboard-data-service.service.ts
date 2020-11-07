@@ -17,7 +17,7 @@ export class DashboardDataServiceService {
     return headers
   }
 
-  saveUserInitiatedRequested(userRequest){
+  saveUserInitiatedRequests(userRequest){
     let headers = new HttpHeaders();
     headers = headers.set("Content-Type","application/json")
     // headers = headers.set("Access-Control-Allow-Origin","*")
@@ -29,4 +29,11 @@ export class DashboardDataServiceService {
     console.log("__Headers____ " + headers)
     return this.http.post(`${API_URL}/requests/hitchHikeRequests/`, userRequest, { headers: headers })
   }
+
+  fetchAllRequests(){
+
+    return this.http.get(`${API_URL}/requests/hitchHikeRequests/`)
+
+  }
+
 }
