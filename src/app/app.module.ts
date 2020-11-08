@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 //import { HttpConfigInterceptorProvider } from '../interceptor/httpconfig.interceptor';
 import { SocialLoginModule, SocialAuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider } from "angularx-social-login";
+import { LoginSignupComponent } from './login-signup/login-signup.component';
 // import { provideConfig } from '../interceptor/socialLoginConfig';
 
 // let config = new SocialAuthServiceConfig([
@@ -32,7 +33,8 @@ import { GoogleLoginProvider } from "angularx-social-login";
     DashboardComponent,
     HeaderComponent,
     FooterComponent,
-    MenubarComponent
+    MenubarComponent,
+    LoginSignupComponent
   ],
   imports: [
     BrowserModule,

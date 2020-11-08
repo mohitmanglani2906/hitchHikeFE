@@ -1,0 +1,21 @@
+<div class="login-form">
+    <div *ngIf="signUpMessageSuccess" class="alert alert-success">{{signUpMessageSuccess}}</div>
+    <div *ngIf="signUpMessageFailure" class="alert alert-danger">{{signUpMessageFailure}}</div>
+    <div *ngIf="loginMessageFailure" class="alert alert-danger">{{loginMessageFailure}}</div>
+    <form method="post">
+        <h2 class="text-center">hitchHike</h2>
+        <div class="text-center social-btn">
+            <button class="btn btn-danger btn-block" (click) = "signUpWithGoogle()"><i class="fa fa-google"></i> Sign up with <b>Google</b></button>
+        </div>
+        <div class="or-seperator"><i>or</i></div>
+        <h5 class="text-center">Already have an account?</h5>
+        <div class="text-center social-btn">
+            <!-- <a href="#" class="btn btn-primary btn-block"><i class="fa fa-facebook"></i> Sign in with <b>Facebook</b></a>
+            <a href="#" class="btn btn-info btn-block"><i class="fa fa-twitter"></i> Sign in with <b>Twitter</b></a> -->
+            <!-- <a href="#" class="btn btn-danger btn-block"><i class="fa fa-google"></i> Sign in with <b>Google</b></a> -->
+            <button class="btn btn-danger btn-block" (click) = "loginWithGoogle()"><i class="fa fa-google"></i> Log in with <b>Google</b></button>
+        </div>
+        
+        <h5 class="text-center">Powered By <b>Mohit Manglani</b></h5>
+    </form>
+</div>

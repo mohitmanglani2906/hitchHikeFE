@@ -3,6 +3,8 @@ import { DashboardDataServiceService } from '../service/dashboard-data-service.s
 import { SocialAuthServiceConfig, SocialAuthService } from 'angularx-social-login';
 import { GoogleLoginProvider } from "angularx-social-login";
 import { SocialUser } from "angularx-social-login";
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 export class UserRequest {
   public email:string
@@ -23,17 +25,30 @@ export class DashboardComponent implements OnInit {
   successMessage = ""
   leaveTime = ""
   allRequestsList : any
-
+  email = ""
   user: SocialUser;
   loggedIn: boolean;
 
-  constructor(private dashboarddataService: DashboardDataServiceService, private authService: SocialAuthService) { }
+  constructor(private dashboarddataService: DashboardDataServiceService, private authService: SocialAuthService, private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-
+       this.email = this.route.snapshot.params['email'];
+       console.log(this.email)
+      // this.authService.authState.subscribe((user) => {
+      //   this.user = user;
+      //   this.loggedIn = (user != null);
+      //   console.log("__User___ "+ JSON.stringify(this.user.response))
+      //   console.log("Logged in___" + this.loggedIn)
+      //   if(!this.loggedIn){
+      //     this.router.navigate(['login'])
+      //   }
+      // });
+    
     // this.authService.authState.subscribe((user) => {
     //   this.user = user;
     //   this.loggedIn = (user != null);
+    //   console.log("__User___ "+ JSON.stringify(this.user.response))
     // });
     // let today = new Date();
     // var result = today.toISOString().split('.')[0];
@@ -93,8 +108,9 @@ export class DashboardComponent implements OnInit {
       }
   }
 
-  signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
+  // signInWithGoogle(): void {
+  //   console.log("__Sign in with Google___")
+  //   this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  // }
 
 }
