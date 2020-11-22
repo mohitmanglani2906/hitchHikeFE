@@ -14,9 +14,9 @@
     <form #userRequestForm="ngForm" (ngSubmit)="!userRequestForm.invalid &&  submitForm(userRequestForm)" class="form-horizontal">
       
       <div class="form-group">
-        <label class="control-label col-sm-2" for="email">Enter Email id or Name</label>
+        <label class="control-label col-sm-2" for="email">Your Email Id</label>
         <div class="col-sm-10">
-          <input type="text" required="required" [(ngModel)]="userRequest.email" #email="ngModel" class="form-control" id="email" placeholder="Enter email or name" name="email" (ngModelChange) = "userRequest.email = $event">
+          <input type="text" required="required" [(ngModel)]="userRequest.email" #email="ngModel" class="form-control" id="email" placeholder="Enter email or name" name="email" (ngModelChange) = "userRequest.email = $event" disabled>
         </div>
       </div>
 
@@ -54,20 +54,72 @@
   <hr>
 
   <div class="tab">
-    <button class="tablinks" (click) = "myRequests()">My Requests</button>
+    <button class="tablinks" (click) = "fetchMyRequests()">My Requests</button>
     <button class="tablinks" (click) = "fetchAllRequests()">All Requests</button>
     <!-- <button class="Login" (click) = "signInWithGoogle()">Log In</button> -->
   </div>
   
-  <div id="myRequests" class="tabcontent">
-    <h3>Requests Initiated By You</h3>
-    <p>London is the capital city of England.</p>
-    <p>London is the capital city of England.</p>
+  <div id="myRequests" class="tabcontent" *ngIf = "IsmyRequests">
+    
+    <table class="table">
+      <thead style="border: 0 px ;">
+        <tr>
+          <th>Source Place</th>
+          <th>Destination Place</th>
+          <th>Leaving Date</th>
+          <th>Approx Leaving Time</th>
+          <th>Cancel Request</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of myRequests">
+          <td>{{request.sourcePlace}}</td>
+          <td>{{request.destinationPlace}}</td>
+          <td>{{request.leavingDate}}</td>
+          <td>{{request.leavingTime}}</td>
+          <td><button (click)="cancelRequest(request)" class="btn btn-danger">Cancel</button></td>
+          <!-- <td>{{todo.description}}</td>
+          <td>{{todo.targetDate | date | uppercase}}</td>
+          <td>{{todo.done}}</td>
+          <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button></td>
+          <td><button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td> -->
+        </tr>
+      </tbody>
+    
+    
+    </table>
   </div>
   
-  <div id="all Requests" class="tabcontent">
-    <h3>All Requests</h3>
-    <p>Paris is the capital of France.</p> 
+  <div id="all Requests" class="tabcontent" *ngIf = "IsallRequests">
+    <table class="table">
+      <thead style="border: 0 px ;">
+        <tr>
+          <th>Who Requested</th>
+          <th>Source Place</th>
+          <th>Destination Place</th>
+          <th>Leaving Date</th>
+          <th>Approx Leaving Time</th>
+          <th>Accept Request</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of allRequestsList">
+          <td>{{request.fullName}}</td>
+          <td>{{request.sourcePlace}}</td>
+          <td>{{request.destinationPlace}}</td>
+          <td>{{request.leavingDate}}</td>
+          <td>{{request.leavingTime}}</td>
+          <td><button (click)="acceptRequest(request)" class="btn btn-success">Accept</button></td>
+          <!-- <td>{{todo.description}}</td>
+          <td>{{todo.targetDate | date | uppercase}}</td>
+          <td>{{todo.done}}</td>
+          <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button></td>
+          <td><button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td> -->
+        </tr>
+      </tbody>
+    
+    
+    </table>
   </div>
   
    

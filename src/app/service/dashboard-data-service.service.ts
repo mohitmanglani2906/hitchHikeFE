@@ -36,4 +36,12 @@ export class DashboardDataServiceService {
 
   }
 
+  fetchMyRequests(userEmail){
+    return this.http.get(`${API_URL}/requests/myRequests?userEmail=` + userEmail)
+  }
+
+  cancelRequest(requestJson){
+    return this.http.put(`${API_URL}/requests/hitchHikeRequests/`, requestJson)
+  }
+
 }

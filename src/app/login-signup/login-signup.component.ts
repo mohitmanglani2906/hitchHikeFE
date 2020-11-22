@@ -12,6 +12,7 @@ export class UserLogin {
   public createdTime: Date
   public idToken: string
   public loggedInWith: string
+  public flag : string
 }
 
 
@@ -30,6 +31,7 @@ export class LoginSignupComponent implements OnInit {
   signUpMessageFailure = ""
   loginMessageSuccess = ""
   loginMessageFailure = ""
+  flag = ""
 
   constructor(private authService: SocialAuthService, private router: Router, private logindataService: LoginDataService) { }
 
@@ -43,9 +45,10 @@ export class LoginSignupComponent implements OnInit {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
     this.authService.authState.subscribe((user) => {
       this.user = user;
+      this.flag = "Log In"
       this.loggedIn = (user != null);
       if(this.loggedIn != false){
-        this.logindataService.loginWithGoogle(this.user.email).subscribe(
+        this.logindataService.loginWithGoogle(this.user.email, this.flag).subscribe(
           response =>{
               console.log(response)
               console.log(this.user.email)
@@ -54,6 +57,13 @@ export class LoginSignupComponent implements OnInit {
                 this.router.navigate(['login'])
               }
               else{
+                // console.log("__Logged In User___ " + JSON.stringify(response))
+                let navigationExtras= {
+                  queryParams: {
+                      "email": JSON.stringify(this.user.email)
+                  }
+                };          
+                    
                 this.router.navigate(['dashboard', this.user.email])
               }
               
@@ -81,25 +91,22 @@ export class LoginSignupComponent implements OnInit {
       this.userLogin.authToken = this.user.authToken
       this.userLogin.userEmailJson =  this.user.response
       this.userLogin.userEmailJson["userEmail"] = this.userLogin.userEmailJson["$t"]
+      delete this.userLogin.userEmailJson["$t"]
       this.userLogin.idToken = this.user.idToken
       this.userLogin.loggedInWith = this.user.provider
       this.userLogin.createdTime = new Date();
-      delete this.userLogin.userEmailJson["$t"]
+      this.userLogin.flag = "Sign Up"
       this.logindataService.saveUserSignUpData(this.userLogin).subscribe(
           response => {
-            // this.signup =  false
             if(response["success"] == false){
               console.log("user Email Json___ " + typeof(this.userLogin.userEmailJson))
-              // this.signup = false
               this.signUpMessageFailure = response["message"]
             }
             else{
-              // this.signup =  true
               this.signUpMessageSuccess = "Account Created Successfully!"
             }
           },
           error =>{
-            // this.signup = false
             this.signUpMessageFailure = "Account not created. Please try again!"
           }
         )

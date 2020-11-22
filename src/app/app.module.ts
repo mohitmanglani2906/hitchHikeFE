@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -8,10 +8,11 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MenubarComponent } from './menubar/menubar.component';
 import { FormsModule } from '@angular/forms';
-//import { HttpConfigInterceptorProvider } from '../interceptor/httpconfig.interceptor';
+import { HttpInterceptorBasicAuthServiceService } from './service/http/http-interceptor-basic-auth-service.service';
 import { SocialLoginModule, SocialAuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider } from "angularx-social-login";
 import { LoginSignupComponent } from './login-signup/login-signup.component';
+import { DatePipe } from '@angular/common'
 // import { provideConfig } from '../interceptor/socialLoginConfig';
 
 // let config = new SocialAuthServiceConfig([
@@ -45,6 +46,10 @@ import { LoginSignupComponent } from './login-signup/login-signup.component';
   ],
   providers: [
     // HttpConfigInterceptorProvider,
+
+    {
+      provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorBasicAuthServiceService, multi: true
+    },
     {
       provide: 'SocialAuthServiceConfig' ,
       useValue : {
@@ -55,7 +60,8 @@ import { LoginSignupComponent } from './login-signup/login-signup.component';
         }],
       } as SocialAuthServiceConfig,
       
-    } 
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
