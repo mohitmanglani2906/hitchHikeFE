@@ -56,7 +56,7 @@ import { DatePipe } from '@angular/common'
         providers: [
           {
           id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider("813388989619-a3jl5oobqoumls1fci05q32q9nu9bqva.apps.googleusercontent.com"),
+          provider: new GoogleLoginProvider(""),
         }],
       } as SocialAuthServiceConfig,
       
