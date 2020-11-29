@@ -1,3 +1,45 @@
+#logo {
+  /* background-color: green; */
+  margin: 8px;
+  padding: 8px 16px;
+  font-size:30px;
+  float: left;
+  /* border-radius: 30px;
+  background-color: #e7e7e7; */
+}
+
+.customRight {
+  float:right;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#userEmail{
+  margin: 2px;
+  font-family: arial;
+  color: black;
+  background-color: #e7e7e7;
+  padding: 8px;
+}
+
+#userImage {
+  border: 1px solid #ddd;
+  margin: 5px;
+  border-radius: 50%;
+  width: 100%;
+  max-width: 40px;
+  height: auto;
+}
+
+img:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+#userEmail:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
 .tab {
     overflow: hidden;
     /* border: 1px solid #ccc; */
@@ -34,4 +76,23 @@
     /* border: 1px solid #ccc; */
     border-top: none;
     
+  }
+
+  
+  @media screen and (max-width: 800px) {
+    h2 {
+      font-size: 20px;
+    }
+    .customRight{
+      position: fixed;
+    }
+  }
+
+  @media screen and (max-width: 420px) {
+    h2 {
+      font-size: 16px;
+    }
+    .customRight{
+      position: fixed;
+    }
   }

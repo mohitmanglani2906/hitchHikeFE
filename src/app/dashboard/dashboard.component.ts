@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common'
 import { AUTHENTICATED_USER } from '../service/login-data.service'
 import * as moment from 'moment';
+import { DynamicAuthenticationService } from '../service/dynamic-authentication.service';
 
 
 
@@ -37,10 +38,12 @@ export class DashboardComponent implements OnInit {
   user: SocialUser;
   loggedIn: boolean;
   IsmyRequests: boolean
+  NoRequest: boolean
   IsallRequests: boolean
+  userImage : string
 
   constructor(private dashboarddataService: DashboardDataServiceService, private authService: SocialAuthService, private router: Router,
-    private route: ActivatedRoute, public datepipe: DatePipe) { }
+    private route: ActivatedRoute, public datepipe: DatePipe, private dynamicAuthenticationService: DynamicAuthenticationService) { }
 
   ngOnInit() {  
     this.email = this.route.snapshot.params["email"]
@@ -50,8 +53,26 @@ export class DashboardComponent implements OnInit {
     if(sessionStorage.getItem(AUTHENTICATED_USER) != this.userRequest.email){
        this.router.navigate(['login'])
     }
+    this.getUserDetails(this.userRequest.email)
     this.fetchMyRequests()
       
+  }
+
+  getUserDetails(userEmail){
+    this.dashboarddataService.getUserDetails(userEmail)
+      .subscribe(
+        response =>{
+            console.log("Response user details___ " + JSON.stringify(response))
+            if(response["success"] == false){
+              this.userImage = ""
+            }
+            this.userImage = response["userData"]["OJ"]
+            console.log("user Image__ " + this.userImage)
+        },
+        error =>{
+          console.log("Something went wrong")
+        }
+      )
   }
 
   submitForm(){
@@ -98,9 +119,9 @@ export class DashboardComponent implements OnInit {
             this.IsmyRequests = true
             this.IsallRequests = false
             this.myRequests = this.getAllPendingRequests(this.myRequests.requestData)
-            console.log("This My Request____ " + JSON.stringify(this.myRequests))
             if(this.myRequests.length == 0){
-              this.IsmyRequests = false
+              this.IsmyRequests  = false
+              this.NoRequest = true
             }
           }
           
@@ -117,6 +138,7 @@ export class DashboardComponent implements OnInit {
          response => {
             this.allRequestsList = response
             this.IsmyRequests = false
+            this.NoRequest = false
             if(response["success"] == true){
               this.IsallRequests = true
               this.allRequestsList = this.getAllRequestList(this.allRequestsList["requestData"])
@@ -135,16 +157,18 @@ export class DashboardComponent implements OnInit {
 
   cancelRequest(requestJson){
       requestJson.status = "Cancel"
-      this.customReverseTimeConverter(requestJson)
-      // this.dashboarddataService.cancelRequest(requestJson)
-      //   .subscribe(
-      //     response => {
-      //        console.log("Success" + JSON.stringify(response))
-      //     },
-      //     error => {
-      //       console.log("Error")
-      //     }
-      //   )
+      requestJson = this.customReverseTimeConverter(requestJson)
+      console.log("New Request Json___SENT " + JSON.stringify(requestJson))
+      this.dashboarddataService.cancelRequest(requestJson)
+        .subscribe(
+          response => {
+             console.log("Success" + JSON.stringify(response))
+             this.fetchMyRequests()
+          },
+          error => {
+            console.log("Error")
+          }
+        )
   }
 
   getAllRequestList(allRequestsList){
@@ -169,6 +193,7 @@ export class DashboardComponent implements OnInit {
 
   getAllPendingRequests(requestJson){
       console.log("requestJson __ " + JSON.stringify(requestJson))
+      let allMyRequest = []
       for(var i=0; i < requestJson.length ; i++){
         
         if(requestJson[i]["status"] != "Pending"){
@@ -180,10 +205,11 @@ export class DashboardComponent implements OnInit {
           requestJson[i]["leavingTime"] = time
           requestJson[i]["initiatedDate"] = moment(requestJson[i]["initiatedTime"]).format('LL')
           requestJson[i]["initiatedTime"] = this.customeTimeConverter(requestJson[i]["initiatedTime"].slice(11,-1))
+          allMyRequest.push(requestJson[i])
         }
       }
 
-      return requestJson
+      return allMyRequest
       
   }
 
@@ -216,16 +242,18 @@ export class DashboardComponent implements OnInit {
           if(item == "leavingTime"){
             formattedDate = moment(requestJson["leavingDate"]).format().slice(0,10)
             if(requestJson[item].includes("PM")){
-              hours = parseInt(requestJson[item].split(":")[0]) + 12  
+              hours = parseInt(requestJson[item].split(":")[0]) + 12
+              minutes = requestJson[item].split(":")[1].replace("PM","").replace(" ","")  
             }
             else {
               hours = String(parseInt(requestJson[item].split(":")[0]))
               if(String(hours).length == 1){
                 hours = "0" + String(hours)
               }
+              minutes = requestJson[item].split(":")[1].replace("AM","").replace(" ","")
             }
       
-            minutes = requestJson[item].split(":")[1].replace("PM","").replace(" ","")
+            // minutes = requestJson[item].split(":")[1].replace("PM","").replace(" ","")
             time = hours + ":" + minutes + ":00Z"
             formattedTime = moment(requestJson["leavingDate"]).format().slice(0,10) + "T" + time
             requestJson[item] = formattedTime
@@ -236,16 +264,18 @@ export class DashboardComponent implements OnInit {
           else if(item == "initiatedTime"){
             formattedDate = moment(requestJson["initiatedDate"]).format().slice(0,10)
             if(requestJson[item].includes("PM")){
-              hours = parseInt(requestJson[item].split(":")[0]) + 12  
+              hours = parseInt(requestJson[item].split(":")[0]) + 12 
+              minutes = requestJson[item].split(":")[1].replace("PM","").replace(" ","") 
             }
             else {
               hours = String(parseInt(requestJson[item].split(":")[0]))
               if(String(hours).length == 1){
                 hours = "0" + String(hours)
               }
+              minutes = requestJson[item].split(":")[1].replace("AM","").replace(" ","")
             }
       
-            minutes = requestJson[item].split(":")[1].replace("PM","").replace(" ","")
+            // minutes = requestJson[item].split(":")[1].replace("PM","").replace(" ","")
             time = hours + ":" + minutes + ":00Z"
             formattedTime = moment(requestJson["initiatedDate"]).format().slice(0,10) + "T" + time
             requestJson[item] = formattedTime
@@ -256,8 +286,15 @@ export class DashboardComponent implements OnInit {
       }
 
       console.log("New Request json___ " + JSON.stringify(requestJson))
-     }
+      return requestJson
+  }
   
+  logout(){
+      this.dynamicAuthenticationService.logout()
+      this.router.navigate(['login'])
+    
+  }
+
   // signInWithGoogle(): void {
   //   console.log("__Sign in with Google___")
   //   this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);

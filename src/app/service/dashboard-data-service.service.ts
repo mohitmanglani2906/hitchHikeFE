@@ -17,6 +17,10 @@ export class DashboardDataServiceService {
     return headers
   }
 
+  getUserDetails(userEmail){
+    return this.http.get(`${API_URL}/requests/getUserDetails?userEmail=` + userEmail)
+  }
+
   saveUserInitiatedRequests(userRequest){
     let headers = new HttpHeaders();
     headers = headers.set("Content-Type","application/json")

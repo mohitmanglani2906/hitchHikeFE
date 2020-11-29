@@ -13,4 +13,9 @@ export class DynamicAuthenticationService {
     let user = sessionStorage.getItem('authenticaterUser')
     return !(user === null)
  }
+
+ logout(){
+  sessionStorage.removeItem('authenticaterUser')
+}
+
 }

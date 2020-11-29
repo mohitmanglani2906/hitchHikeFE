@@ -1,5 +1,14 @@
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
 <!-- <app-menubar></app-menubar> -->
+<p id="logo">hitchHike</p>
+<div class="customRight">
+  <p id="userEmail" class="label other">
+    {{userRequest.email}}
+  </p>
+  <img src={{userImage}} id="userImage">
+  <button type="submit" class="btn btn-danger" style="padding: 2px;margin: 2px;" id="logout" (click) = "logout()">Logout</button>
+</div>
+
 <div id="main" style="padding: 40px;">
 
   <div class="container">
@@ -78,16 +87,19 @@
           <td>{{request.leavingDate}}</td>
           <td>{{request.leavingTime}}</td>
           <td><button (click)="cancelRequest(request)" class="btn btn-danger">Cancel</button></td>
-          <!-- <td>{{todo.description}}</td>
-          <td>{{todo.targetDate | date | uppercase}}</td>
-          <td>{{todo.done}}</td>
-          <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button></td>
-          <td><button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td> -->
         </tr>
       </tbody>
     
     
     </table>
+  </div>
+
+  <div id="myRequests" class="tabcontent" *ngIf="NoRequest">
+      <table class="table">
+        <tr>
+          <td>No request is raised as of now.</td>
+        </tr>
+      </table>
   </div>
   
   <div id="all Requests" class="tabcontent" *ngIf = "IsallRequests">
@@ -110,11 +122,6 @@
           <td>{{request.leavingDate}}</td>
           <td>{{request.leavingTime}}</td>
           <td><button (click)="acceptRequest(request)" class="btn btn-success">Accept</button></td>
-          <!-- <td>{{todo.description}}</td>
-          <td>{{todo.targetDate | date | uppercase}}</td>
-          <td>{{todo.done}}</td>
-          <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button></td>
-          <td><button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td> -->
         </tr>
       </tbody>
     
