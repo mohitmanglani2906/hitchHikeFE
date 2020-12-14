@@ -44,7 +44,7 @@ export class DashboardDataServiceService {
     return this.http.get(`${API_URL}/requests/myRequests?userEmail=` + userEmail)
   }
 
-  cancelRequest(requestJson){
+  changeRequest(requestJson){
     return this.http.put(`${API_URL}/requests/hitchHikeRequests/`, requestJson)
   }
 

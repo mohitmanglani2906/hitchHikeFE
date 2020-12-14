@@ -8,7 +8,8 @@
   <img src={{userImage}} id="userImage">
   <button type="submit" class="btn btn-danger" style="padding: 2px;margin: 2px;" id="logout" (click) = "logout()">Logout</button>
 </div>
-
+<br><br>
+<hr>
 <div id="main" style="padding: 40px;">
 
   <div class="container">
@@ -97,7 +98,7 @@
   <div id="myRequests" class="tabcontent" *ngIf="NoRequest">
       <table class="table">
         <tr>
-          <td>No request is raised as of now.</td>
+          <td>No request is raised by you as of now.</td>
         </tr>
       </table>
   </div>
@@ -128,6 +129,15 @@
     
     </table>
   </div>
+
+  <div id="all Requests" class="tabcontent" *ngIf="NoAllRequest">
+    <table class="table">
+      <tr>
+        <td>No request is raised as of now.</td>
+      </tr>
+    </table>
+  </div>
+  
   
    
 </div>

@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit {
   loggedIn: boolean;
   IsmyRequests: boolean
   NoRequest: boolean
+  NoAllRequest: boolean
   IsallRequests: boolean
   userImage : string
 
@@ -107,6 +108,10 @@ export class DashboardComponent implements OnInit {
     
     
   }
+  
+  donate(){
+    this.router.navigate(['donate'])
+  }
 
   fetchMyRequests(){
     this.dashboarddataService.fetchMyRequests(this.email)
@@ -118,6 +123,7 @@ export class DashboardComponent implements OnInit {
             console.log("response" + response)
             this.IsmyRequests = true
             this.IsallRequests = false
+            this.NoAllRequest = false
             this.myRequests = this.getAllPendingRequests(this.myRequests.requestData)
             if(this.myRequests.length == 0){
               this.IsmyRequests  = false
@@ -145,6 +151,8 @@ export class DashboardComponent implements OnInit {
               console.log("All Requests___ " + JSON.stringify(this.allRequestsList))
               if(this.allRequestsList.length == 0){
                 this.IsmyRequests = false
+                this.NoAllRequest = true
+                this.IsallRequests = false
               }
             }
             
@@ -158,12 +166,26 @@ export class DashboardComponent implements OnInit {
   cancelRequest(requestJson){
       requestJson.status = "Cancel"
       requestJson = this.customReverseTimeConverter(requestJson)
-      console.log("New Request Json___SENT " + JSON.stringify(requestJson))
-      this.dashboarddataService.cancelRequest(requestJson)
+      this.dashboarddataService.changeRequest(requestJson)
         .subscribe(
           response => {
              console.log("Success" + JSON.stringify(response))
              this.fetchMyRequests()
+          },
+          error => {
+            console.log("Error")
+          }
+        )
+  }
+
+  acceptRequest(requestJson){
+    requestJson.status = "Accepted"
+      requestJson = this.customReverseTimeConverter(requestJson)
+      this.dashboarddataService.changeRequest(requestJson)
+        .subscribe(
+          response => {
+             console.log("Success" + JSON.stringify(response))
+             this.fetchAllRequests()
           },
           error => {
             console.log("Error")
