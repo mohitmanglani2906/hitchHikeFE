@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit {
             if(response["success"] == false){
               this.userImage = ""
             }
-            this.userImage = response["userData"]["OJ"]
+            this.userImage = response["userData"]["SJ"]
             console.log("user Image__ " + this.userImage)
         },
         error =>{
