@@ -57,12 +57,12 @@ export class LoginSignupComponent implements OnInit {
                 this.router.navigate(['login'])
               }
               else{
-                // console.log("__Logged In User___ " + JSON.stringify(response))
-                // let navigationExtras= {
-                //   queryParams: {
-                //       "email": JSON.stringify(this.user.email)
-                //   }
-                // };          
+                console.log("__Logged In User___ " + JSON.stringify(response))
+                let navigationExtras= {
+                  queryParams: {
+                      "email": JSON.stringify(this.user.email)
+                  }
+                };          
                     
                 this.router.navigate(['dashboard', this.user.email])
               }

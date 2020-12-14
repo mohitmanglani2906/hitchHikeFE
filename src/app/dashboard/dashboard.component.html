@@ -10,7 +10,9 @@
 </div>
 <br><br>
 <hr>
-<div id="main" style="padding: 40px;">
+
+
+<div id="main" style="padding: 30px;">
 
   <div class="container">
 
@@ -21,7 +23,7 @@
     <div *ngIf="leavingTime.invalid && (leavingTime.dirty && leavingTime.touched) && leavingTime.errors.required" class="alert alert-danger">Please Enter Approx Leaving Time</div>
 
     <h2>Let's Share and Take Ride</h2>
-    <form #userRequestForm="ngForm" (ngSubmit)="!userRequestForm.invalid &&  submitForm(userRequestForm)" class="form-horizontal">
+    <form #userRequestForm="ngForm" (ngSubmit)="!userRequestForm.invalid &&  submitForm()" class="form-horizontal">
       
       <div class="form-group">
         <label class="control-label col-sm-2" for="email">Your Email Id</label>

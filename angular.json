@@ -133,5 +133,8 @@
       }
     }
   },
-  "defaultProject": "hitchHike"
+  "defaultProject": "hitchHike",
+  "cli": {
+    "analytics": "f6350d36-8dbf-429f-96d3-53c7f2b36d36"
+  }
 }
