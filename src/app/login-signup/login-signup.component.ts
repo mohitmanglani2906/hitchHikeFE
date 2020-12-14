@@ -42,45 +42,44 @@ export class LoginSignupComponent implements OnInit {
 
   loginWithGoogle() {
     console.log("__Sign in with Google___")
-    this.router.navigate(['dashboard', "mohitmanglani2906@gmail.com"])
-    // this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-    // this.authService.authState.subscribe((user) => {
-    //   this.user = user;
-    //   this.flag = "Log In"
-    //   this.loggedIn = (user != null);
-    //   if(this.loggedIn != false){
-    //     this.logindataService.loginWithGoogle(this.user.email, this.flag).subscribe(
-    //       response =>{
-    //           console.log(response)
-    //           console.log(this.user.email)
-    //           if(response["success"] == false){
-    //             this.loginMessageFailure = response["message"]
-    //             this.router.navigate(['login'])
-    //           }
-    //           else{
-    //             // console.log("__Logged In User___ " + JSON.stringify(response))
-    //             // let navigationExtras= {
-    //             //   queryParams: {
-    //             //       "email": JSON.stringify(this.user.email)
-    //             //   }
-    //             // };          
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.authService.authState.subscribe((user) => {
+      this.user = user;
+      this.flag = "Log In"
+      this.loggedIn = (user != null);
+      if(this.loggedIn != false){
+        this.logindataService.loginWithGoogle(this.user.email, this.flag).subscribe(
+          response =>{
+              console.log(response)
+              console.log(this.user.email)
+              if(response["success"] == false){
+                this.loginMessageFailure = response["message"]
+                this.router.navigate(['login'])
+              }
+              else{
+                console.log("__Logged In User___ " + JSON.stringify(response))
+                let navigationExtras= {
+                  queryParams: {
+                      "email": JSON.stringify(this.user.email)
+                  }
+                };          
                     
-    //             this.router.navigate(['dashboard', this.user.email])
-    //           }
+                this.router.navigate(['dashboard', this.user.email])
+              }
               
-    //       }, 
-    //       error =>{
-    //         console.log("message__ " + error.message)
-    //         this.loginMessageFailure = "Something went wrong. Please try again later!"
-    //         this.router.navigate(["login"])
-    //       }
-    //     )
-    //   }
-    //   else{
-    //     this.loginMessageFailure = "Something went wrong. Please try again later!"
-    //     this.router.navigate(['login'])
-    //   }
-    // });
+          }, 
+          error =>{
+            console.log("message__ " + error.message)
+            this.loginMessageFailure = "Something went wrong. Please try again later!"
+            this.router.navigate(["login"])
+          }
+        )
+      }
+      else{
+        this.loginMessageFailure = "Something went wrong. Please try again later!"
+        this.router.navigate(['login'])
+      }
+    });
     
   }
 

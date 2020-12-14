@@ -9,7 +9,7 @@
   <button type="submit" class="btn btn-danger" style="padding: 2px;margin: 2px;" id="logout" (click) = "logout()">Logout</button>
 </div>
 
-<div id="main" style="padding: 40px;">
+<div id="main" style="padding: 30px;">
 
   <div class="container">
 
@@ -78,7 +78,6 @@
           <th>Leaving Date</th>
           <th>Approx Leaving Time</th>
           <th>Cancel Request</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -88,7 +87,6 @@
           <td>{{request.leavingDate}}</td>
           <td>{{request.leavingTime}}</td>
           <td><button (click)="cancelRequest(request)" class="btn btn-danger">Cancel</button></td>
-          <td></td>
         </tr>
       </tbody>
     
