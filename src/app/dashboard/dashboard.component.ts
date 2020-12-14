@@ -113,15 +113,15 @@ export class DashboardComponent implements OnInit {
       .subscribe(
         response => {
           this.myRequests = response
-          this.allRequestsList = ""
           if(response["success"] == true){
-            console.log("response" + response)
+            console.log("response " + response)
             this.IsmyRequests = true
             this.IsallRequests = false
             this.myRequests = this.getAllPendingRequests(this.myRequests.requestData)
             if(this.myRequests.length == 0){
-              this.IsmyRequests  = false
-              this.NoRequest = true
+              // this.IsmyRequests  = false
+              this.IsallRequests = false
+              // this.NoRequest = true
             }
           }
           
